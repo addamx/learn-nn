@@ -3,7 +3,10 @@ import matplotlib.pyplot as plt
 
 
 def J(theta):  # 损失函数
-    return (theta - 2.5) ** 2 - 1
+    try:
+        return (theta - 2.5) ** 2 - 1
+    except:
+        return float('inf')
 
 
 def dJ(theta):  # 梯度，即：损失函数的导数
@@ -17,17 +20,20 @@ def draw_gradient_descent():
     plt.xlabel('theta')
     plt.ylabel('loss')
 
+    epoches = 50
     theta = 0.0
     theta_history = [theta]
-    eta = 0.1  # 步长
+    eta = 1.1  # 步长
     epsilon = 1e-8  # 精度
-    while True:
+    epoch_i = 0
+    while epoch_i < epoches:
         gradient = dJ(theta)
         last_theta = theta
         theta = theta - eta * gradient
         theta_history.append(theta)
         if abs(J(theta) - J(last_theta)) < epsilon:
             break
+        epoch_i += 1
 
     plt.plot(plot_x, J(plot_x), color='r')
     plt.plot(np.array(theta_history), J(np.array(theta_history)), color='b', marker='+')
